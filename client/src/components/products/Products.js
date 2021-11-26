@@ -1,14 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 
 function Products() {
   const [products, setProducts] = useState([]);
   //   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [totlPages, setTotalPages] = useState([]);
+  const [totalPages, setTotalPages] = useState([]);
 
-  const pages = new Array(totlPages).fill(null).map((v, i) => i);
+  const pages = new Array(totalPages).fill(null).map((v, i) => i);
 
   useEffect(() => {
     async function getProductList() {
@@ -33,46 +34,12 @@ function Products() {
           );
         })}
 
-        <div>
-          <nav aria-label="...">
-            <ul className="pagination justify-content-center">
-              <li className="page-item">
-                <span className="page-link">
-                  <button
-                    className="btn btn-link"
-                    onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-                  >
-                    Previous
-                  </button>
-                </span>
-              </li>
-              {pages.slice(0, 5).map((pageIndex) => (
-                <li key={pageIndex} className="page-item">
-                  <span className="page-link">
-                    <button
-                      className="btn btn-link"
-                      onClick={() => setCurrentPage(pageIndex)}
-                    >
-                      {pageIndex + 1}
-                    </button>
-                  </span>
-                </li>
-              ))}
-              <li className="page-item">
-                <span className="page-link">
-                  <button
-                    className="btn btn-link"
-                    onClick={() =>
-                      setCurrentPage(Math.min(totlPages - 1, currentPage + 1))
-                    }
-                  >
-                    Next
-                  </button>
-                </span>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <Pagination
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          pages={pages}
+          totalpages={totalPages}
+        />
       </div>
     </div>
   );
