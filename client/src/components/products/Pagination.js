@@ -8,7 +8,7 @@ export const Pagination = (props) => {
           <li className="page-item">
             <span className="page-link">
               <button
-                className="btn btn-link"
+                className="btn"
                 onClick={() =>
                   props.setCurrentPage(Math.max(0, props.currentPage - 1))
                 }
@@ -27,13 +27,13 @@ export const Pagination = (props) => {
                 key={pageIndex}
                 className={
                   pageIndex === props.currentPage
-                    ? "page-item active"
+                    ? "page-item active text-white"
                     : "page-item"
                 }
               >
                 <span className="page-link">
                   <button
-                    className="btn btn-link"
+                    className="btn"
                     onClick={() => props.setCurrentPage(pageIndex)}
                   >
                     {pageIndex + 1}
@@ -43,13 +43,15 @@ export const Pagination = (props) => {
             ))}
           <li className="page-item disabled">
             <span className="page-link">
-              <button className="btn btn-link">...</button>
+              <button className="btn">
+                <b>....</b>
+              </button>
             </span>
           </li>
           <li className="page-item">
             <span className="page-link">
               <button
-                className="btn btn-link"
+                className="btn"
                 onClick={() =>
                   props.setCurrentPage(
                     Math.min(props.totalpages - 1, props.currentPage + 1)
