@@ -4,10 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var loginRouter = require("./routes/login");
 var productsRouter = require("./routes/products");
+var imagesRouter = require("./routes/images");
 
 var app = express();
 
@@ -25,6 +27,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // pass = config.get("dbpass");
 // url = `mongodb+srv://meet:meet_6040@cluster0.3d2ex.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
+app.use(
+  cors({
+    origin: ["http://localhost:3001"],
+    credentials: true,
+  })
+);
+
 mongoose
   .connect("mongodb://localhost/PCpartz", {
     useNewUrlParser: true,
@@ -36,6 +45,7 @@ mongoose
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/products", productsRouter);
+app.use("/images", imagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
