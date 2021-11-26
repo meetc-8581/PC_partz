@@ -3,9 +3,11 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const mongoose = require("mongoose");
 
 var indexRouter = require("./routes/index");
 var loginRouter = require("./routes/login");
+var productsRouter = require("./routes/products");
 
 var app = express();
 
@@ -19,8 +21,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// user = config.get("dbuser");
+// pass = config.get("dbpass");
+// url = `mongodb+srv://meet:meet_6040@cluster0.3d2ex.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+
+mongoose
+  .connect("mongodb://localhost/PCpartz", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB PCpartz"))
+  .catch((err) => console.error("Could not connect to MongoDB"));
+
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
+app.use("/products", productsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
