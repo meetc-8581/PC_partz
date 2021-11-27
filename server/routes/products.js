@@ -81,6 +81,30 @@ router.get("/category", async (req, res) => {
   }
 });
 
+///Trial search
+router.get("/search/text", async (req, res) => {
+  var searchTxt = req.query.text;
+
+  console.log(searchTxt);
+  try {
+    // const products = await Products.find({
+    //   $text: {
+    //     $search: "a",
+    //   },
+    // });
+
+    const indexex = Products.indexes();
+
+    console.log(indexex);
+    res.status(200).send();
+
+    res.json(products);
+  } catch (err) {
+    console.error("error", err);
+    return res.status(500).send("Something went Wrong sorry!");
+  }
+});
+
 ///get by id
 router.get("/:id", async (req, res) => {
   try {

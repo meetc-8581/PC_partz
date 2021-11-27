@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
+import axios from "axios";
+import Dropdown from "./Dropdown";
 
 function Navbar(props) {
-  //   const [category, setcategory] = useState([]);
+  const [category, setcategory] = useState([]);
 
   let textInput = React.createRef();
 
@@ -11,10 +13,15 @@ function Navbar(props) {
     props.setQuery(textInput.current.value);
   };
 
-  //   async function getCategories() {
-  //     const categoryRes = axios.get("http://localhost:3000/products/catrgory");
-  //     setcategory(categoryRes.data);
-  //   }
+  useEffect(() => {
+    async function getCategories() {
+      const categoryRes = await axios.get(
+        "http://localhost:3000/products/category"
+      );
+      setcategory(categoryRes.data);
+    }
+    getCategories();
+  }, []);
 
   return (
     <>
@@ -23,6 +30,9 @@ function Navbar(props) {
           <a className="navbar-brand" href="/">
             <b>PC partz Store</b>
           </a>
+          <div>
+            <Dropdown category={category} />
+          </div>
           <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
               <div className="col-md-6">
