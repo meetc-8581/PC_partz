@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Navbar.css";
-import axios from "axios";
-import Dropdown from "./Dropdown";
 
 function Navbar(props) {
-  const [category, setcategory] = useState([]);
-
   let textInput = React.createRef();
 
   let handleClick = (e) => {
@@ -13,26 +9,16 @@ function Navbar(props) {
     props.setQuery(textInput.current.value);
   };
 
-  useEffect(() => {
-    async function getCategories() {
-      const categoryRes = await axios.get(
-        "http://localhost:3000/products/category"
-      );
-      setcategory(categoryRes.data);
-    }
-    getCategories();
-  }, []);
-
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+        <div className="container">
+          <a className="navbar-brand fw-bolder fs-2" href="/">
             <b>PC partz Store</b>
           </a>
-          <div>
+          {/* <div>
             <Dropdown category={category} />
-          </div>
+          </div> */}
           <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
               <div className="col-md-6">
@@ -41,10 +27,10 @@ function Navbar(props) {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Search"
+                    placeholder="Search pc parts"
                     ref={textInput}
                   />
-                  <button className="btn btn-primary" onClick={handleClick}>
+                  <button className="btn btn-primary p-1" onClick={handleClick}>
                     Search
                   </button>
                 </div>
@@ -54,9 +40,11 @@ function Navbar(props) {
 
           <a href="/">
             <button type="button" className="btn btn-light">
-              <h3>
-                <i className="bi bi-cart3"></i>
-              </h3>
+              <span className="bi bi-cart3 fs-3">
+                <span className="position-absolute top-0 mt-2 right-100 badge rounded-pill bg-danger fw-lighter">
+                  0
+                </span>
+              </span>
             </button>
           </a>
         </div>

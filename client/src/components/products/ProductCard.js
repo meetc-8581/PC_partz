@@ -1,33 +1,54 @@
 import React from "react";
+import "./ProductCard.css";
 
 function ProductCard(props) {
-  var image = `http://localhost:3000/images/61a0369d0595d155a81c9499_1`;
+  var image = `http://localhost:3000/images/no-thumbnail-medium`;
   // if (props.product.images[0] !== undefined) {
   //   image = `http://localhost:3000/images/${props.product.images[0]}`;
   // }
   return (
-    <div className="card col-md-5 my-1">
-      <img src={image} className="card-img-top img-thumbnail" alt="hello"></img>
-      <div className="card-body">
-        <h5 className="card-title">{props.product.brand}</h5>
-        <span className="card-text">
-          {props.product.model}
-          {props.product.category}
-
-          <div>
-            Price:
-            {props.product.price[0]}
-            {props.product.price[1]}
+    <div className="row border-bottom border-1 mb-2 p-3">
+      <div className="col-md-4 ">
+        <div className="card-image">
+          <img src={image} alt="hello" className="max-vw-5"></img>
+        </div>
+      </div>
+      <div className="col-md-5">
+        <div className="card border-0">
+          <div className="card-body">
+            <h5 className="card-title">
+              {props.product.brand} - {props.product.model}
+            </h5>
+            <div className="card-text">
+              <h6>{props.product.category}</h6>
+            </div>
+            <div className="card-text">
+              <span
+                className={props.product.inventory > 5 ? "" : "text-danger"}
+              >
+                {props.product.inventory > 5
+                  ? "In Stock"
+                  : `Only ${props.product.inventory} left in stock!`}
+              </span>
+            </div>
           </div>
-          <div> In Stock : {props.product.inventory}</div>
-        </span>
-        <div className="my-2">
-          <a href="/products" className="btn btn-primary mx-2">
-            Add to cart
-          </a>
-          <a href="/products" className="btn btn-warning mx-2">
-            Buy
-          </a>
+        </div>
+      </div>
+      <div className="col-md-3 card border-0">
+        <div className="card-body">
+          <div className="card-title fw-bolder">
+            <h5>$ {props.product.price[0]}</h5>
+          </div>
+          <div className="card-text my-1">
+            <a href="/products" className="btn btn-primary">
+              Add to Cart
+            </a>
+          </div>
+          <div className="card-text my-1">
+            <a href="/products" className="btn btn-warning">
+              Buy Now
+            </a>
+          </div>
         </div>
       </div>
     </div>

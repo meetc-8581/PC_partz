@@ -39,8 +39,13 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB PCpartz"))
-  .catch((err) => console.error("Could not connect to MongoDB"));
+  .then(() => {
+    console.log("Connected to MongoDB PCpartz");
+  })
+  .catch((err) => {
+    console.error("Could not connect to MongoDB");
+    console.log(err);
+  });
 
 app.use("/", indexRouter);
 app.use("/login", loginRouter);

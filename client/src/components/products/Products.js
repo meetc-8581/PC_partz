@@ -13,7 +13,7 @@ function Products(props) {
   useEffect(() => {
     async function getProductList() {
       const productRes = await axios.get(
-        `http://localhost:3000/products/page/search?page=${props.currentPage}&productsperpage=6&brand=${props.query}&model=${props.query}`
+        `http://localhost:3000/products/search?page=${props.currentPage}&productsperpage=10&search=${props.query}`
       );
       setProducts(productRes.data.products);
       setTotalPages(productRes.data.totalpages);
@@ -23,14 +23,14 @@ function Products(props) {
   }, [props.currentPage, props.query]);
 
   return (
-    <div className="container  mt-5">
+    <div className="container mt-5">
       <div className="row">
-        <div className="col-md-2">
+        <div className="col-md-3">
           <Sidebar />
         </div>
-        <div className="col-md-10">
+        <div className="col-md-9">
           <div className="container">
-            <div className="row justify-content-around">
+            <div className="row container">
               {products.map((product) => {
                 return (
                   <ProductCard

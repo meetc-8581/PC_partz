@@ -28,31 +28,7 @@ const productsSchema = new mongoose.Schema({
   },
 });
 
-productsSchema.index({ brand: "text" });
-
 const Products = mongoose.model("Products", productsSchema);
-
-Products.create(
-  {
-    brand: "ABKONCORE",
-    model: "Cronos 350M",
-    price: ["0.00", "USD"],
-    category: "case",
-    category_id: 1,
-    inventory: 11,
-    specs: {
-      form_factor: "MicroATX Mini Tower",
-      color: "Black",
-      psu_wattage: null,
-      side_panel: null,
-      external_bays: 0,
-      internal_bays: 1,
-    },
-  },
-  function (err) {
-    if (err) return console.log(err);
-  }
-);
 
 function validateProducts(user) {
   const schema = {

@@ -14,52 +14,26 @@ router.get("/", async (req, res) => {
   }
 });
 
-//get with pagination
-router.get("/page", async (req, res) => {
-  const page = parseInt(req.query.page || "0");
-  const producstPerPage = parseInt(req.query.productsperpage || "10");
-  const total = await Products.countDocuments();
+// search with pagination
+router.get("/search", async (req, res) => {
+  // if query for search present then $text search other wise every thing...
+  var query = req.query.search
+    ? {
+        $text: {
+          $search: req.query.search,
+        },
+      }
+    : { $regex: ".*" };
+
+  const page = parseInt(req.query.page || "0"); // page number
+  const producstPerPage = parseInt(req.query.productsperpage || "10"); // number of products per page
+  const total = await Products.countDocuments(query); // total number of dcument returned
 
   try {
-    const products = await Products.find()
+    const products = await Products.find(query)
       .limit(producstPerPage)
       .skip(producstPerPage * page);
 
-    res.json({
-      totalpages: Math.ceil(total / producstPerPage),
-      products,
-    });
-  } catch (err) {
-    console.error("error", err);
-    return res.status(500).send("Something went Wrong sorry!");
-  }
-});
-
-router.get("/page/search", async (req, res) => {
-  var brand = req.query.brand ? req.query.brand : ".*";
-  var model = req.query.model ? req.query.model : ".*";
-
-  const page = parseInt(req.query.page || "0");
-  const producstPerPage = parseInt(req.query.productsperpage || "10");
-  const total = await Products.countDocuments({
-    $or: [
-      { brand: { $regex: brand, $options: "$i" } },
-      { model: { $regex: model, $options: "$i" } },
-    ],
-  });
-
-  try {
-    const products = await Products.find({
-      $or: [
-        { brand: { $regex: brand, $options: "$i" } },
-        { model: { $regex: model, $options: "$i" } },
-      ],
-    })
-      .limit(producstPerPage)
-      .skip(producstPerPage * page);
-
-    // const total = products.length;
-    // console.log(products.length);
     res.json({
       totalpages: Math.ceil(total / producstPerPage),
       products,
@@ -81,23 +55,10 @@ router.get("/category", async (req, res) => {
   }
 });
 
-///Trial search
-router.get("/search/text", async (req, res) => {
-  var searchTxt = req.query.text;
-
-  console.log(searchTxt);
+router.get("/drop", async (req, res) => {
   try {
-    // const products = await Products.find({
-    //   $text: {
-    //     $search: "a",
-    //   },
-    // });
-
-    const indexex = Products.indexes();
-
-    console.log(indexex);
-    res.status(200).send();
-
+    const products = await Products.deleteMany({ price: ["0.00", "USD"] });
+    console.log(products);
     res.json(products);
   } catch (err) {
     console.error("error", err);
