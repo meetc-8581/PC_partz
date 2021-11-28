@@ -3,9 +3,18 @@ import axios from "axios";
 import "./Sidebar.css";
 import CategoryDropDown from "./CategoryDropDown";
 
-export const Sidebar = () => {
+export const Sidebar = (props) => {
   const [category, setCategory] = useState([]);
-  const [openCategory, setOpenCategory] = useState(true);
+  // const [openCategory, setOpenCategory] = useState(true);
+
+  let minPriceRef = React.createRef();
+  let maxPriceRef = React.createRef();
+
+  function handelclick() {
+    var arr = [minPriceRef.current.value, maxPriceRef.current.value];
+    props.setPrice(arr);
+  }
+
   useEffect(() => {
     async function getCategories() {
       const categoryRes = await axios.get(
@@ -21,7 +30,11 @@ export const Sidebar = () => {
       <h4>Categories and Filters</h4>
       <div className="mt-3 card border-0 ">
         <div className="list-group-item border-0 ">
-          <CategoryDropDown category={category} />
+          <CategoryDropDown
+            category={category}
+            setSearchCategory={props.setSearchCategory}
+            searchCategory={props.searchCategory}
+          />
         </div>
         <div className="list-group-item border-0 ">
           <div className="border-bottom d-flex justify-content-between">
@@ -34,6 +47,7 @@ export const Sidebar = () => {
                 type="text"
                 className="form-control me-2"
                 placeholder="min"
+                ref={minPriceRef}
               />
 
               <span className="input-group-text">$</span>
@@ -41,8 +55,14 @@ export const Sidebar = () => {
                 type="text"
                 className="form-control me-2"
                 placeholder="min"
+                ref={maxPriceRef}
               />
-              <button className="btn btn-info input-group-text">Go</button>
+              <button
+                className="btn btn-info input-group-text"
+                onClick={() => handelclick()}
+              >
+                Go
+              </button>
             </div>
           </div>
         </div>

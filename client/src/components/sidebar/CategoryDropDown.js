@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CategoryDropDown.css";
 
 const CategoryDropDown = (props) => {
   const [openCategory, setOpenCategory] = useState(false);
-  const [category_id, setCategory_id] = useState([]);
+  const [checkedState, setCheckedState] = useState(
+    new Array(props.category.length).fill(false)
+  );
+
+  const handleOnChange = (position) => {
+    props.setSearchCategory(
+      props.searchCategory.concat(props.category[position])
+    );
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+  };
 
   return (
     <div className="fw-light">
@@ -34,8 +46,9 @@ const CategoryDropDown = (props) => {
                   <input
                     className="form-check-input m-1"
                     type="checkbox"
-                    value={cat}
-                    ref={category_id[i]}
+                    value={i}
+                    checked={checkedState[i]}
+                    onChange={() => handleOnChange(i)}
                   />
                   {cat}
                 </li>

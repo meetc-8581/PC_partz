@@ -20,7 +20,7 @@ function ProductCard(props) {
               {props.product.brand} - {props.product.model}
             </h5>
             <div className="card-text">
-              <h6>{props.product.category}</h6>
+              <h6>{props.product.category.toUpperCase()}</h6>
             </div>
             <div className="card-text">
               <span
@@ -37,7 +37,7 @@ function ProductCard(props) {
       <div className="col-md-3 card border-0">
         <div className="card-body">
           <div className="card-title fw-bolder">
-            <h5>$ {props.product.price[0]}</h5>
+            <h5>$ {props.product.price}</h5>
           </div>
           <div className="card-text my-1">
             <a href="/products" className="btn btn-primary">

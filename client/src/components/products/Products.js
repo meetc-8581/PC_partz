@@ -7,26 +7,33 @@ import ProductCard from "./ProductCard";
 function Products(props) {
   const [products, setProducts] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
+  const [searchCategory, setSearchCategory] = useState("");
+  const [price, setPrice] = useState([0, 10000]);
 
   const pages = new Array(totalPages).fill(null).map((v, i) => i);
 
   useEffect(() => {
     async function getProductList() {
       const productRes = await axios.get(
-        `http://localhost:3000/products/search?page=${props.currentPage}&productsperpage=10&search=${props.query}`
+        `http://localhost:3000/products/search/trial?page=${props.currentPage}&productsperpage=10&search=${props.query}&minprice=${price[0]}&maxprice=${price[1]}&category={searchCategory}`
       );
       setProducts(productRes.data.products);
       setTotalPages(productRes.data.totalpages);
     }
 
     getProductList();
-  }, [props.currentPage, props.query]);
+  }, [props.currentPage, props.query, searchCategory, price]);
 
   return (
     <div className="container mt-5">
       <div className="row">
         <div className="col-md-3">
-          <Sidebar />
+          <Sidebar
+            searchCategory={searchCategory}
+            setSearchCategory={setSearchCategory}
+            price={price}
+            setPrice={setPrice}
+          />
         </div>
         <div className="col-md-9">
           <div className="container">
