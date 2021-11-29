@@ -20,9 +20,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// user = config.get("dbuser");
-// pass = config.get("dbpass");
-// url = `mongodb+srv://meet:meet_6040@cluster0.3d2ex.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 app.use(
   cors({
