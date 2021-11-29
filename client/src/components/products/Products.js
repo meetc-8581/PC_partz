@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import qs from "qs";
 import Sidebar from "../sidebar/Sidebar";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
@@ -14,9 +15,13 @@ function Products(props) {
 
   useEffect(() => {
     async function getProductList() {
-      const productRes = await axios.get(
-        `http://localhost:3000/products/search/trial?page=${props.currentPage}&productsperpage=10&search=${props.query}&minprice=${price[0]}&maxprice=${price[1]}&category={searchCategory}`
-      );
+      const url = `http://localhost:3000/products/search/trial?page=${props.currentPage}&productsperpage10=&search=${props.query}&minprice=${price[0]}maxprice=${price[1]}`;
+      // const data = {
+      //   page: props.currentPage,
+      //   productsperpage: 10,
+      //   search: props.query,
+      // };
+      const productRes = await axios.get(url);
       setProducts(productRes.data.products);
       setTotalPages(productRes.data.totalpages);
     }

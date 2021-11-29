@@ -6,16 +6,13 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-var indexRouter = require("./routes/index");
-var loginRouter = require("./routes/login");
-var productsRouter = require("./routes/products");
-var imagesRouter = require("./routes/images");
+var userRouter = require("./routes/usersRouter");
+var productsRouter = require("./routes/productsRouter");
+var imagesRouter = require("./routes/imagesRouter");
+var loginRouter = require("./routes/loginRouter");
+var cartRouter = require("./routes/cartRouter");
 
 var app = express();
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -47,10 +44,11 @@ mongoose
     console.log(err);
   });
 
-app.use("/", indexRouter);
-app.use("/login", loginRouter);
+app.use("/user", userRouter);
 app.use("/products", productsRouter);
 app.use("/images", imagesRouter);
+app.use("/login", loginRouter);
+app.use("/cart", cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -65,7 +63,6 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
 });
 
 module.exports = app;

@@ -31,13 +31,14 @@ const productsSchema = new mongoose.Schema({
 const Products = mongoose.model("Products", productsSchema);
 
 function validateProducts(user) {
-  const schema = {
+  const schema = Joi.object({
     brand: Joi.string().required(),
     model: Joi.string(),
-    prince: Joi.Array(),
+    price: Joi.Array(),
     category: Joi.string(),
-  };
-  return Joi.validate(user, schema);
+    category_id: Joi.number(),
+  });
+  return schema.validate(user);
 }
 
 module.exports.Products = Products;
