@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./CategoryDropDown.css";
 
 const CategoryDropDown = (props) => {
@@ -31,7 +31,7 @@ const CategoryDropDown = (props) => {
       <div className="border-bottom">
         <a
           className="ropdown-toggle w-100 d-flex justify-content-between text-dark text-decoration-none"
-          href="#"
+          href="#category"
           onClick={() => {
             setOpenCategory(!openCategory);
           }}

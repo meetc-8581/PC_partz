@@ -2,7 +2,7 @@ import React from "react";
 
 export const Pagination = (props) => {
   return (
-    <div>
+    <div className="mt-2">
       <nav aria-label="...">
         <ul className="pagination justify-content-center">
           <li className="page-item">

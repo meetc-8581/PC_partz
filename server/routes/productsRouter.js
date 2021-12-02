@@ -54,7 +54,7 @@ router.get("/search/trial", async (req, res) => {
   const producstPerPage = parseInt(req.query.productsperpage || "10"); // number of products per page
   const minprice = parseFloat(req.query.minprice || "50");
   const maxprice = parseFloat(req.query.maxprice || "1000000000");
-  const categoriesArr = req.query.category.split(",");
+  const categoriesArr = req.query.category ? req.query.category.split(",") : "";
 
   console.log("categoriesArr", categoriesArr);
   const categoryQuery =
@@ -68,6 +68,7 @@ router.get("/search/trial", async (req, res) => {
       console.log(req.query.search);
       var query = [
         { $match: { $text: { $search: req.query.search } } },
+        { $match: { isDeleted: { $ne: true } } },
         { $match: { category: categoryQuery } },
         { $match: { price: { $gt: minprice } } },
         { $match: { price: { $lt: maxprice } } },
@@ -78,6 +79,7 @@ router.get("/search/trial", async (req, res) => {
     } else {
       const query = [
         { $match: { brand: { $regex: ".*" } } },
+        { $match: { isDeleted: { $ne: true } } },
         { $match: { category: categoryQuery } },
         { $match: { price: { $gt: minprice } } },
         { $match: { price: { $lt: maxprice } } },

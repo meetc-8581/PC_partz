@@ -24,7 +24,7 @@ function Products(props) {
     }
 
     getProductList();
-  }, [currentPage, query, price]);
+  }, [currentPage, query, price, searchCategory]);
 
   return (
     <div className="container mt-5">

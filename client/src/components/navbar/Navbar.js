@@ -14,7 +14,7 @@ export function Navbar() {
             <b>PC partz Store</b>
           </a>
           <div>
-            <Link to="/login">
+            <Link to={loggedIn ? "/" : "/login"}>
               <button type="button" className="btn btn-light">
                 <span className="bi bi-person-circle fs-3"></span>
               </button>

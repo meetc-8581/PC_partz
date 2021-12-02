@@ -10,7 +10,7 @@ import { Cart } from "./components/user/Cart";
 import { Product } from "./components/product/Product";
 
 function Router() {
-  // const { loggedIn, isAdmin } = useContext(AuthContext);
+  const { loggedIn, isAdmin } = useContext(AuthContext);
 
   return (
     <BrowserRouter>
@@ -19,18 +19,20 @@ function Router() {
         <Route exact path="/" element={<Products />}></Route>
         <Route path="/product" element={<Product />}></Route>
 
-        {/* {loggedIn === false && ( */}
-        <>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-        </>
-        {/* )} */}
-        {/* {loggedIn === true && ( */}
-        <>
-          <Route path="/cart" element={<Cart />}></Route>
-          <Route path="/cart" element={<Cart />}></Route>
-        </>
-        {/* )} */}
+        {loggedIn === false && (
+          <>
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+          </>
+        )}
+        {loggedIn === true && (
+          <>
+            <Route path="/cart" element={<Cart />}></Route>
+          </>
+        )}
+        {isAdmin === true && (
+          <>{/* <Route path="/admin" element={<Cart />}></Route> */}</>
+        )}
       </Routes>
     </BrowserRouter>
   );

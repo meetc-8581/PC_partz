@@ -8,18 +8,24 @@ function AuthContextProvider(props) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   async function getLoggedIn() {
-    const loggedInRes = await axios.get("http://localhost:3000/login/loggedin");
+    const loggedInRes = await axios.get(
+      "http://localhost:3000/login/loggedin",
+      {
+        withCredentials: true,
+      }
+    );
 
     setLoggedIn(loggedInRes.data);
-    console.log("loggedin", loggedInRes.data);
   }
 
   async function getIsAdmin() {
     try {
-      const adminRes = await axios.get("http://localhost:3000/admin/isadmin");
+      const adminRes = await axios.get("http://localhost:3000/admin/isadmin", {
+        withCredentials: true,
+      });
       setIsAdmin(adminRes.data);
     } catch (err) {
-      console.log("Not Admin");
+      console.log(err);
     }
   }
 
@@ -29,7 +35,9 @@ function AuthContextProvider(props) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
+    <AuthContext.Provider
+      value={{ loggedIn, getLoggedIn, isAdmin, setIsAdmin }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
