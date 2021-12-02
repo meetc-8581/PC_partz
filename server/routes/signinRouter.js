@@ -28,8 +28,4 @@ router.post("/register", async (req, res) => {
     .send(_.pick(user, ["id", "name", "email"]));
 });
 
-router.get("/", function (req, res, next) {
-  res.send();
-});
-
 module.exports = router;

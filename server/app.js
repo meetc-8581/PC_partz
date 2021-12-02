@@ -6,11 +6,12 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-var userRouter = require("./routes/usersRouter");
+var signinRouter = require("./routes/signinRouter");
 var productsRouter = require("./routes/productsRouter");
 var imagesRouter = require("./routes/imagesRouter");
 var loginRouter = require("./routes/loginRouter");
 var cartRouter = require("./routes/cartRouter");
+var adminRouter = require("./routes/adminRouter");
 
 var app = express();
 
@@ -19,7 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
 
 app.use(
   cors({
@@ -41,11 +41,12 @@ mongoose
     console.log(err);
   });
 
-app.use("/user", userRouter);
+app.use("/signin", signinRouter);
 app.use("/products", productsRouter);
 app.use("/images", imagesRouter);
 app.use("/login", loginRouter);
 app.use("/cart", cartRouter);
+app.use("/admin", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

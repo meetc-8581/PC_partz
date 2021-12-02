@@ -52,31 +52,47 @@ router.get("/search/trial", async (req, res) => {
   // if query for search present then $text search other wise every thing...
   const page = parseInt(req.query.page || "0"); // page number
   const producstPerPage = parseInt(req.query.productsperpage || "10"); // number of products per page
+  const minprice = parseFloat(req.query.minprice || "50");
+  const maxprice = parseFloat(req.query.maxprice || "1000000000");
+  const categoriesArr = req.query.category.split(",");
+
+  console.log("categoriesArr", categoriesArr);
+  const categoryQuery =
+    req.query.category === "" ? { $regex: ".*" } : { $in: categoriesArr };
+  console.log("categoryQuery", categoryQuery);
 
   try {
-    var total = [];
+    var total = 0;
     var products = [];
     if (req.query.search) {
+      console.log(req.query.search);
       var query = [
         { $match: { $text: { $search: req.query.search } } },
-        // { $match: { price: { $gt: req.query.minprice } } },
+        { $match: { category: categoryQuery } },
+        { $match: { price: { $gt: minprice } } },
+        { $match: { price: { $lt: maxprice } } },
         { $sort: { score: { $meta: "textScore" } } },
-
-        { $limit: producstPerPage },
-        { $skip: producstPerPage * page },
       ];
-      // total number of dcument returned
-      total = await Products.countDocuments({
-        $text: { $search: req.query.search },
-      });
+
       products = await Products.aggregate(query);
     } else {
-      query = { regex: ".*" };
-      total = await Products.countDocuments(query);
-      products = await Products.find(query)
-        .limit(producstPerPage)
-        .skip(producstPerPage * page);
+      const query = [
+        { $match: { brand: { $regex: ".*" } } },
+        { $match: { category: categoryQuery } },
+        { $match: { price: { $gt: minprice } } },
+        { $match: { price: { $lt: maxprice } } },
+      ];
+
+      products = await Products.aggregate(query);
     }
+
+    total = products.length;
+    // total number of dcument returned
+    products = products.slice(
+      producstPerPage * page,
+      producstPerPage * page + producstPerPage
+    );
+
     res.json({
       totalpages: Math.ceil(total / producstPerPage),
       products,

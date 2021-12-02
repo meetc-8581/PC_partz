@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Sidebar.css";
 import CategoryDropDown from "./CategoryDropDown";
+import { Search } from "./Search";
 
 export const Sidebar = (props) => {
   const [category, setCategory] = useState([]);
@@ -11,7 +12,11 @@ export const Sidebar = (props) => {
   let maxPriceRef = React.createRef();
 
   function handelclick() {
-    var arr = [minPriceRef.current.value, maxPriceRef.current.value];
+    var arr = [0, 10000];
+    console.log(maxPriceRef.current.value);
+    arr[0] = minPriceRef.current.value === "" ? 0 : minPriceRef.current.value;
+    arr[1] =
+      maxPriceRef.current.value === "" ? 1000 : maxPriceRef.current.value;
     props.setPrice(arr);
   }
 
@@ -28,12 +33,18 @@ export const Sidebar = (props) => {
   return (
     <div className="sidebar sticky-top pt-3">
       <h4>Categories and Filters</h4>
+      <Search
+        query={props.query}
+        setQuery={props.setQuery}
+        handelclick={handelclick}
+      />
       <div className="mt-3 card border-0 ">
         <div className="list-group-item border-0 ">
           <CategoryDropDown
             category={category}
             setSearchCategory={props.setSearchCategory}
             searchCategory={props.searchCategory}
+            handelclick={handelclick}
           />
         </div>
         <div className="list-group-item border-0 ">
@@ -54,15 +65,9 @@ export const Sidebar = (props) => {
               <input
                 type="text"
                 className="form-control me-2"
-                placeholder="min"
+                placeholder="max"
                 ref={maxPriceRef}
               />
-              <button
-                className="btn btn-info input-group-text"
-                onClick={() => handelclick()}
-              >
-                Go
-              </button>
             </div>
           </div>
         </div>

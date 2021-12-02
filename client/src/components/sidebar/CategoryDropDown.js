@@ -8,13 +8,22 @@ const CategoryDropDown = (props) => {
   );
 
   const handleOnChange = (position) => {
-    props.setSearchCategory(
-      props.searchCategory.concat(props.category[position])
-    );
+    var sc = props.searchCategory;
+
+    var index = sc.indexOf(props.category[position]);
+
+    if (index !== -1) {
+      sc.splice(index, 1);
+    } else {
+      sc.push(props.category[position]);
+    }
+
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );
     setCheckedState(updatedCheckedState);
+    props.setSearchCategory(sc);
+    props.handelclick();
   };
 
   return (
@@ -37,8 +46,10 @@ const CategoryDropDown = (props) => {
           </div>
         </a>
       </div>
-      {openCategory && (
-        <div className="category-list">
+      {
+        <div
+          className={openCategory ? "category-list" : "category-list-closed"}
+        >
           <ul className="list-group">
             {props.category.map((cat, i) => {
               return (
@@ -56,7 +67,7 @@ const CategoryDropDown = (props) => {
             })}
           </ul>
         </div>
-      )}
+      }
     </div>
   );
 };

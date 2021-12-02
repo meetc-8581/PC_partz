@@ -1,39 +1,39 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import qs from "qs";
 import Sidebar from "../sidebar/Sidebar";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 
 function Products(props) {
+  const [currentPage, setCurrentPage] = useState(0);
   const [products, setProducts] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
-  const [searchCategory, setSearchCategory] = useState("");
-  const [price, setPrice] = useState([0, 10000]);
+  const [searchCategory, setSearchCategory] = useState([]);
+  const [price, setPrice] = useState([0, 1000000000]);
+  const [query, setQuery] = useState("");
 
   const pages = new Array(totalPages).fill(null).map((v, i) => i);
 
   useEffect(() => {
     async function getProductList() {
-      const url = `http://localhost:3000/products/search/trial?page=${props.currentPage}&productsperpage10=&search=${props.query}&minprice=${price[0]}maxprice=${price[1]}`;
-      // const data = {
-      //   page: props.currentPage,
-      //   productsperpage: 10,
-      //   search: props.query,
-      // };
+      const url = `http://localhost:3000/products/search/trial?page=${currentPage}&productsperpage10=&search=${query}&minprice=${price[0]}&maxprice=${price[1]}&category=${searchCategory}`;
+
       const productRes = await axios.get(url);
       setProducts(productRes.data.products);
       setTotalPages(productRes.data.totalpages);
     }
 
     getProductList();
-  }, [props.currentPage, props.query, searchCategory, price]);
+  }, [currentPage, query, price]);
 
   return (
     <div className="container mt-5">
+      {/* <Dummy /> */}
       <div className="row">
         <div className="col-md-3">
           <Sidebar
+            query={query}
+            setQuery={setQuery}
             searchCategory={searchCategory}
             setSearchCategory={setSearchCategory}
             price={price}
@@ -53,8 +53,8 @@ function Products(props) {
               })}
 
               <Pagination
-                setCurrentPage={props.setCurrentPage}
-                currentPage={props.currentPage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
                 pages={pages}
                 totalpages={totalPages}
               />

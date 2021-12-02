@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { boolean } = require("joi");
 
 const productsSchema = new mongoose.Schema({
   brand: {
@@ -26,6 +27,8 @@ const productsSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
+
+  isDeleted: Boolean,
 });
 
 const Products = mongoose.model("Products", productsSchema);
