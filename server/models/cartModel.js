@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-// const cartProductSchema = new mongoose.Schema({
-//   productId: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Products",
-//   },
-//   quantity: Number,
-// });
-
 const cartSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
