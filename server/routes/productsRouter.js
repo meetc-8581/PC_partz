@@ -2,18 +2,6 @@ var express = require("express");
 var router = express.Router();
 const { Products } = require("../models/productsModel");
 
-// get all the products
-router.get("/", async (req, res) => {
-  try {
-    const products = await Products.find({});
-
-    res.json(products);
-  } catch (err) {
-    console.error("error", err);
-    return res.status(500).send("Something went Wrong sorry!");
-  }
-});
-
 // search with pagination
 router.get("/search", async (req, res) => {
   // if query for search present then $text search other wise every thing...
@@ -128,10 +116,23 @@ router.get("/drop", async (req, res) => {
   }
 });
 
+// get all the products
+router.get("/", async (req, res) => {
+  try {
+    const products = await Products.find({});
+
+    res.json(products);
+  } catch (err) {
+    console.error("error", err);
+    return res.status(500).send("Something went Wrong sorry!");
+  }
+});
+
 ///get by id
 router.get("/:id", async (req, res) => {
   try {
     const products = await Products.find({ _id: req.params.id });
+    console.log(products);
     res.json(products);
   } catch (err) {
     console.error("error", err);

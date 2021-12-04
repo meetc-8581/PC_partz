@@ -4,7 +4,7 @@ import Sidebar from "../sidebar/Sidebar";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 
-function Products(props) {
+function Products() {
   const [currentPage, setCurrentPage] = useState(0);
   const [products, setProducts] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
@@ -28,7 +28,6 @@ function Products(props) {
 
   return (
     <div className="container mt-5">
-      {/* <Dummy /> */}
       <div className="row">
         <div className="col-md-3">
           <Sidebar
@@ -42,7 +41,7 @@ function Products(props) {
         </div>
         <div className="col-md-9">
           <div className="container">
-            <div className="row container">
+            <div className="row">
               {products.map((product) => {
                 return (
                   <ProductCard

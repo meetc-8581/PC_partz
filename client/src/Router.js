@@ -7,7 +7,7 @@ import Products from "./components/products/Products";
 import Navbar from "./components/navbar/Navbar";
 import AuthContext from "./context/AuthContext";
 import { Cart } from "./components/user/Cart";
-import { Product } from "./components/product/Product";
+import Product from "./components/product/Product";
 
 function Router() {
   const { loggedIn, isAdmin } = useContext(AuthContext);
