@@ -54,6 +54,19 @@ function CartProductCard(props) {
     }
   };
 
+  async function handleRemove() {
+    const cartRes = await axios.post(
+      `http://localhost:3000/cart/remove/${props.productId}`,
+      { hello: "hello" },
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(cartRes.data);
+    props.setCart(cartRes.data);
+    props.setchanged(!props.changed);
+  }
+
   console.log(props);
   var image = `http://localhost:3000/images/no-thumbnail-medium`;
   return (
@@ -112,7 +125,7 @@ function CartProductCard(props) {
             </div>
           </div>
           <div className="card-text my-1">
-            <a remove className="btn btn-danger">
+            <a remove className="btn btn-danger" onClick={handleRemove}>
               Remove
             </a>
           </div>

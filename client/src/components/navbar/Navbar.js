@@ -12,10 +12,15 @@ function Navbar() {
   const history = useNavigate();
 
   async function handleLogout() {
-    const res = await axios.post("http://localhost:3000/login/logout", {
-      withCredentials: true,
-    });
-    console.log(res.headers);
+    console.log("hello");
+    await axios.post(
+      "http://localhost:3000/login/logout",
+      { hello: "hello" },
+      {
+        withCredentials: true,
+      }
+    );
+
     await getLoggedIn();
     history("/");
   }
@@ -62,9 +67,9 @@ function Navbar() {
             <Link to={loggedIn ? "/cart" : "/login"}>
               <button type="button" className="btn btn-light">
                 <span className="bi bi-cart3 fs-3">
-                  <span className="position-absolute top-0 mt-2 right-100 badge rounded-pill bg-danger fw-lighter">
+                  {/* <span className="position-absolute top-0 mt-2 right-100 badge rounded-pill bg-danger fw-lighter">
                     0
-                  </span>
+                  </span> */}
                 </span>
               </button>
             </Link>

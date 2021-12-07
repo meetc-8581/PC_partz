@@ -1,11 +1,16 @@
 import axios from "axios";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import CartProductCard from "./CartProductCard";
+import AuthContext from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const [cart, setCart] = useState({});
   const [changed, setchanged] = useState(true);
+
+  const { getLoggedIn } = useContext(AuthContext);
+  const history = useNavigate();
 
   const [products, setProducts] = useState([]);
 
@@ -34,6 +39,23 @@ function Cart() {
       //   quantity={cart.products[i].quantity}
       // ></CartProductCard>
     });
+  }
+
+  async function handlecheckout() {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/cart/checkout",
+        { hello: "hello" },
+        {
+          withCredentials: true,
+        }
+      );
+
+      await getLoggedIn();
+      history("/");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
@@ -68,6 +90,7 @@ function Cart() {
                     : "btn btn-warning w-100 disabled"
                 }
                 role="button"
+                onClick={handlecheckout}
               >
                 Check out
               </button>

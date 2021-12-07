@@ -28,8 +28,8 @@ router.post("/product", auth, admin, async (req, res) => {
 router.put("/product", auth, admin, async (req, res) => {
   console.log(req);
 
-  const { error } = validateProducts(req.body);
-  if (error) return res.status(404).send(error.message);
+  // const { error } = validateProducts(req.body);
+  // if (error) return res.status(404).send(error.message);
 
   try {
     var product = await Products.updateOne(
