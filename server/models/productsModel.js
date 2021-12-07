@@ -20,7 +20,7 @@ const productsSchema = new mongoose.Schema({
   },
   category_id: {
     type: Number,
-    required: true,
+    // required: true,
   },
   inventory: {
     type: Number,

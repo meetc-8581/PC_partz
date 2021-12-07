@@ -5,6 +5,41 @@ const auth = require("../middleware/auth");
 const { Cart } = require("../models/cartModel");
 const { Products } = require("../models/productsModel");
 
+router.get("/", auth, async (req, res) => {
+  try {
+    var cart = await Cart.findOne({ userId: req.user._id });
+    res.send(cart);
+  } catch (err) {
+    console.error("error", err);
+    return res.status(404).send("Something went Wrong sorry!");
+  }
+});
+
+router.post("/checkout", auth, async (req, res) => {
+  try {
+    var cart = await Cart.findOne({ userId: req.user._id });
+
+    cart.products.map(async (prod, i) => {
+      const product = await Products.findOne({ _id: prod.productId });
+
+      product.inventory =
+        product.inventory !== 0 ? product.inventory - prod.quantity : 0;
+      console.log(product);
+      await product.save();
+    });
+    cart.totalPrice = 0;
+    cart.totalProducts = 0;
+    cart.products = [];
+
+    saved = await cart.save();
+
+    res.json(saved);
+  } catch (err) {
+    console.error("error", err);
+    return res.status(404).send("Something went Wrong sorry!");
+  }
+});
+
 router.post("/add/:productId", auth, async (req, res) => {
   try {
     var cart = await Cart.findOne({ userId: req.user._id });

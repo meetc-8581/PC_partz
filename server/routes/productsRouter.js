@@ -132,7 +132,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const products = await Products.find({ _id: req.params.id });
-    console.log(products);
+    // console.log(products);
     res.json(products);
   } catch (err) {
     console.error("error", err);

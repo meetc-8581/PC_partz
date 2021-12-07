@@ -43,12 +43,7 @@ function Products() {
           <div className="container">
             <div className="row">
               {products.map((product) => {
-                return (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                  ></ProductCard>
-                );
+                return <ProductCard key={product._id} product={product} />;
               })}
 
               <Pagination

@@ -12,8 +12,8 @@ router.get("/isadmin", auth, admin, (req, res) => {
 router.post("/product", auth, admin, async (req, res) => {
   console.log("request", req.body);
 
-  const { error } = validateProducts(req.body);
-  if (error) return res.status(404).send(error.message);
+  // const { error } = validateProducts(req.body);
+  // if (error) return res.status(404).send(error.message);
 
   // console.log(req.body);
 
@@ -26,7 +26,7 @@ router.post("/product", auth, admin, async (req, res) => {
 });
 
 router.put("/product", auth, admin, async (req, res) => {
-  console.log(req.body);
+  console.log(req);
 
   const { error } = validateProducts(req.body);
   if (error) return res.status(404).send(error.message);

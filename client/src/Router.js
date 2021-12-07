@@ -6,8 +6,10 @@ import Products from "./components/products/Products";
 
 import Navbar from "./components/navbar/Navbar";
 import AuthContext from "./context/AuthContext";
-import { Cart } from "./components/user/Cart";
+import Cart from "./components/user/Cart";
 import Product from "./components/product/Product";
+import AdminCreate from "./components/admin/adminCreate";
+import AdminUpdate from "./components/admin/adminUpdate";
 
 function Router() {
   const { loggedIn, isAdmin } = useContext(AuthContext);
@@ -17,7 +19,7 @@ function Router() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Products />}></Route>
-        <Route path="/product" element={<Product />}></Route>
+        <Route path="/product/:id" element={<Product />}></Route>
 
         {loggedIn === false && (
           <>
@@ -31,7 +33,10 @@ function Router() {
           </>
         )}
         {isAdmin === true && (
-          <>{/* <Route path="/admin" element={<Cart />}></Route> */}</>
+          <>
+            <Route path="/admin/update/:id" element={<AdminUpdate />}></Route>
+            <Route path="/admin" element={<AdminCreate />}></Route>
+          </>
         )}
       </Routes>
     </BrowserRouter>

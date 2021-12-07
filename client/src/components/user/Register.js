@@ -1,15 +1,52 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router";
+import AuthContext from "../../context/AuthContext";
 
-const Register = () => {
+function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [address, setAddress] = useState("");
+
+  const { getLoggedIn } = useContext(AuthContext);
+  const history = useNavigate();
+
+  async function register(e) {
+    e.preventDefault();
+
+    try {
+      const registerData = {
+        name,
+        email,
+        password,
+        address,
+      };
+
+      const res = await axios.post(
+        "http://localhost:3000/signin/register",
+        registerData,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res.headers);
+      await getLoggedIn();
+      history("/");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
-    // <div className="container"
     <div className="container mt-5 m-auto text-center">
       <div className="">
         <h2>Join PC partz Store</h2>
         <h4>A world of better Computing.</h4>
       </div>
-      <form className="w-25 m-auto mt-4 fs-5">
-        <div className="form text-start">
+      <form onSubmit={register} className="w-25 m-auto mt-4 fs-5">
+        <div className="form d-block text-start">
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
               Username
@@ -19,6 +56,7 @@ const Register = () => {
               className="form-control"
               name="username"
               placeholder="username"
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="mb-3">
@@ -26,10 +64,11 @@ const Register = () => {
               Email
             </label>
             <input
-              type="text"
-              name="email"
+              type="email"
+              name="emailAddress"
               className="form-control"
               placeholder="email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mb-3">
@@ -41,31 +80,22 @@ const Register = () => {
               name="password"
               className="form-control"
               placeholder="password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
-              Confirm
+              Confirm Password
             </label>
             <input
               type="password"
-              name="password"
+              name="passwordConfirmation"
               className="form-control"
               placeholder="password"
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="phone" className="form-label">
-              Contact Number
-            </label>
-            <input
-              type="number"
-              name="number"
-              className="form-control"
-              placeholder="number"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-            />
-          </div>
+
           <div className="mb-3">
             <label htmlFor="address" className="form-label">
               Address
@@ -75,6 +105,7 @@ const Register = () => {
               name="address"
               className="form-control"
               placeholder="address"
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
         </div>
@@ -87,6 +118,6 @@ const Register = () => {
       </form>
     </div>
   );
-};
+}
 
 export default Register;

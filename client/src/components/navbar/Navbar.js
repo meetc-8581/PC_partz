@@ -1,10 +1,24 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import "./Navbar.css";
 
-export function Navbar() {
-  const { loggedIn } = useContext(AuthContext);
+function Navbar() {
+  const [dropdownActive, setDropdownActive] = useState(false);
+
+  const { getLoggedIn, loggedIn } = useContext(AuthContext);
+
+  const history = useNavigate();
+
+  async function handleLogout() {
+    const res = await axios.post("http://localhost:3000/login/logout", {
+      withCredentials: true,
+    });
+    console.log(res.headers);
+    await getLoggedIn();
+    history("/");
+  }
 
   return (
     <>
@@ -14,11 +28,37 @@ export function Navbar() {
             <b>PC partz Store</b>
           </a>
           <div>
-            <Link to={loggedIn ? "/" : "/login"}>
-              <button type="button" className="btn btn-light">
+            {loggedIn === true && (
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={() => {
+                  setDropdownActive(!dropdownActive);
+                }}
+              >
                 <span className="bi bi-person-circle fs-3"></span>
               </button>
-            </Link>
+            )}
+            {loggedIn === false && (
+              <Link to={loggedIn ? "/" : "/login"}>
+                <button type="button" className="btn btn-light">
+                  <span className="bi bi-person-circle fs-3"></span>
+                </button>
+              </Link>
+            )}
+
+            <div
+              className={
+                dropdownActive ? "dropdown-menu d-block" : "dropdown-menu"
+              }
+            >
+              <div className="dropdown-item">
+                <button className="btn btn-danger w-100" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            </div>
+
             <Link to={loggedIn ? "/cart" : "/login"}>
               <button type="button" className="btn btn-light">
                 <span className="bi bi-cart3 fs-3">
