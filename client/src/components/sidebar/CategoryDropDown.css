@@ -1,0 +1,9 @@
+.category-list {
+  overflow-y: scroll;
+  max-height: 50vh;
+}
+
+.category-list-closed {
+  overflow-y: scroll;
+  max-height: 13vh;
+}

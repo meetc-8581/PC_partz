@@ -1,0 +1,8 @@
+/* .card-image {
+  width: 100px;
+} */
+
+.card-image img {
+  max-height: 250px;
+  max-width: 250px;
+}

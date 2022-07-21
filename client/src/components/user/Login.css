@@ -1,0 +1,7 @@
+input .error {
+  border-color: red;
+}
+
+.input-feedback {
+  color: rgb(235, 54, 54);
+}

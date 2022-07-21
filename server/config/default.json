@@ -1,0 +1,5 @@
+{
+    "dbuser": "meet",
+    "dbpass": "meet_6040",
+    "jwtPrivateKey": "Agrisense_jwtPrivateKey"
+}
